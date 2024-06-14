@@ -5,7 +5,7 @@
       :key="index"
     >
       <span class="task__tag">
-        {{  tag }}
+        {{ tag }}
       </span>
     </li>
   </ul>
@@ -16,10 +16,10 @@ import { computed } from 'vue'
 import { getTagsArrayFromString } from '../../../common/helpers'
 
 const props = defineProps({
-  tags: {
-    type: String,
-    required: true
-  }
+    tags: {
+      type: String,
+      required: true
+    }
 })
 
 const tagsArray = computed(() => {

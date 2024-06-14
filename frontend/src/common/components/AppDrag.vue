@@ -24,7 +24,7 @@ function onDrag({ dataTransfer }) {
   dataTransfer.dropEffect = MOVE;
   dataTransfer.setData(
     DATA_TRANSFER_PAYLOAD,
-    JSON.stringfy(props.transferData)
+    JSON.stringify(props.transferData)
   );
 }
 </script>

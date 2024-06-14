@@ -1,22 +1,21 @@
 <template>
   <app-layout
-    :tasks="filteredTasks"
-    :filters="state.filters"
-    @update-tasks="updateTasks"
-  >
-    <home-view
       :tasks="filteredTasks"
       :filters="state.filters"
       @update-tasks="updateTasks"
-      @apply-filters="applyFilters"
+  >
+    <router-view
+        :tasks="filteredTasks"
+        :filters="state.filters"
+        @update-tasks="updateTasks"
+        @apply-filters="applyFilters"
     />
   </app-layout>
 </template>
 
 <script setup>
-import { AppLayout } from '@/layouts';
-import { HomeView } from '@/views';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue'
+import { AppLayout } from '@/layouts'
 import { normalizeTask } from './common/helpers'
 import tasks from './mocks/tasks.json'
 
@@ -33,7 +32,7 @@ const filteredTasks = computed(() => {
   const filtersAreEmpty = Object.values(state.filters)
       .every(value => !value.length)
   if (filtersAreEmpty) {
-    // Вернуть все задачи,если фильтры не применены
+    // Вернуть все задачи если фильтры не применены
     return state.tasks
   }
 
@@ -46,11 +45,11 @@ const filteredTasks = computed(() => {
   const usersFilter = task => state.filters.users
       .some(userId => userId === task.userId)
 
-  // По статусам
+  // Применить фильтр по статусам
   const statusesFilter = task => state.filters.statuses
       .some(el => el === task.status || el === task.timeStatus)
 
-  // Обработать задачи в соотв. с фильтрами
+  // Обработать задачи в соответствии с фильтрами
   return state.tasks.filter(task => {
     let result = {
       search: searchFilter,
@@ -68,8 +67,8 @@ function updateTasks (tasksToUpdate) {
   tasksToUpdate.forEach(task => {
     const index = state.tasks.findIndex(({ id }) => id === task.id)
     // findIndex вернет элемент массива или -1
-    // Используем bitwise not для определения, если index === -1
-    // ~-1 вернет 0, т.е. false
+    // Используем bitwise not для определения если index === -1
+    // ~-1 вернет 0, а значит false
     if (~index) {
       state.tasks.splice(index, 1, task)
     }

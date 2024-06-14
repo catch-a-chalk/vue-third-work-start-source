@@ -23,4 +23,5 @@ function onDrop({ dataTransfer }) {
     emit('drop', transferData);
   }
 }
+
 </script>

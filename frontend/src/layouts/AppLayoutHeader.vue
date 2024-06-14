@@ -1,6 +1,5 @@
 <template>
   <header class="header">
-    <!-- Логотип -->
     <div class="header__logo">
       <a href="#" class="logo">
         <img
@@ -11,14 +10,14 @@
         />
       </a>
     </div>
-    <!-- Панель поиска -->
+
     <form action="#" class="header__search">
-      <input type="search" name="search" required placeholder="Поиск"/>
+      <input type="search" name="search" required placeholder="Поиск" />
       <button type="submit">Найти</button>
     </form>
-    <!-- Создание новой задачи -->
+
     <a href="#" class="header__create-task">Создать карточку</a>
-    <!-- Аватар пользователя -->
+
     <a href="#" class="header__user">
       <img
         src="@/assets/img/admin.jpg"
@@ -27,7 +26,7 @@
         height="40"
       />
     </a>
-    <!-- Меню пользователя -->
+
     <div class="header__menu">
       <div class="user-menu">
         <img
@@ -49,8 +48,10 @@
 
 .header {
   position: relative;
+
   display: flex;
   align-items: center;
+
   padding: 15px 12px;
 
   background-color: $blue-600;

@@ -1,45 +1,50 @@
 <template>
-  <!-- AppDrop следит, куда упала задача -->
+  <!--    Компонент AppDrop отслеживает куда упала задача -->
   <app-drop @drop="$emit('drop', $event)">
-    <!-- AppDrag определит какая задача перемещается -->
+    <!--      Компонент AppDrag определяет какая задача перемещается -->
     <app-drag :transfer-data="task">
-      <div class="task">
+      <div 
+        class="task"
+        @click="router.push({ path: `/${task.id}`})">
+<!--        Данный блок показывает пользователя, который работает над задачей-->
         <div
-          v-if="task.user"
-          class="task__user"
+            v-if="task.user"
+            class="task__user"
         >
           <div class="task__avatar">
             <img
-              :src="getImage(task.user.avatar)"
-              alt="Аватар пользователя"
-              width="20"
-              height="20"
+                :src="getImage(task.user.avatar)"
+                alt="Аватар пользователя"
+                width="20"
+                height="20"
             />
           </div>
-          {{  task.user.name }}
+          {{ task.user.name }}
         </div>
+<!--        Данный блок показавает статусы задачи-->
         <div class="task__statuses">
           <span
-            v-if="task.status"
-            class="task__status"
-            :class="`task__status--${task.status}`"
+              v-if="task.status"
+              class="task__status"
+              :class="`task__status--${task.status}`"
           />
           <span
-            v-if="task.timeStatus"
-            class="task__status"
-            :class="`task__status--${task.timeStatus}`"
+              v-if="task.timeStatus"
+              class="task__status"
+              :class="`task__status--${task.timeStatus}`"
           />
         </div>
         <h5
-          class="task__title"
-          :class="{ 'task__title--first': !task.user }"
+            class="task__title"
+            :class="{ 'task__title--first': !task.user }"
         >
-        {{ task.title }}
-      </h5>
-      <task-card-tags
-        v-if="task.tags && task.tags.length"
-        :tags="task.tags"
-      />
+          {{ task.title }}
+        </h5>
+<!--        Тэги задачи вынесены в отдельный компонент-->
+        <TaskCardTags
+            v-if="task.tags && task.tags.length"
+            :tags="task.tags"
+        />
       </div>
     </app-drag>
   </app-drop>
@@ -50,6 +55,9 @@ import AppDrag from '@/common/components/AppDrag.vue'
 import AppDrop from '@/common/components/AppDrop.vue'
 import TaskCardTags from './TaskCardTags.vue'
 import { getImage } from '@/common/helpers'
+import {useRouter} from 'vue-router'
+
+const router = useRouter()
 
 const props = defineProps({
   task: {
