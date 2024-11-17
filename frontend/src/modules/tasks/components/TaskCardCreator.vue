@@ -329,10 +329,6 @@ function submit () {
   // Переход на главную страницу
   router.push('/')
 }
-
-function setTags (tags) {
-  task.value.tags = tags
-}
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <component :is="layout">
-    <slot/>
+    <slot />
   </component>
 </template>
 
@@ -12,14 +12,13 @@ import AppLayoutDefault from './AppLayoutDefault.vue'
 const route = useRoute()
 const layout = shallowRef(null)
 
-// Наблюдаем за изменениями маршрута
+// Наблюдаем за изменением маршрута
 watch(
   () => route.meta,
     async meta => {
       try {
         if (meta.layout) {
-          // Пробуем найти компонент из свойства meta
-          // и динамически импортировать его
+          // Пробуем найти компонент из свойства meta и динамически импортировать его
           const component = await import(`./${meta.layout}.vue`)
           layout.value = component?.default || AppLayoutDefault
         } else {
@@ -31,6 +30,7 @@ watch(
       }
     }
 )
+
 </script>
 
 <style lang="scss" scoped>

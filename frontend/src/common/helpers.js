@@ -2,11 +2,11 @@ import { toRaw } from 'vue'
 import {
   DAY_IN_MILLISEC,
   TAG_SEPARATOR,
-  MONTH_IN_SEC,
-  YEAR_IN_SEC,
-  DAY_IN_SEC,
-  HOUR_IN_SEC,
-  MINUTE_IN_SEC
+	MONTH_IN_SEC,
+	YEAR_IN_SEC,
+	DAY_IN_SEC,
+	HOUR_IN_SEC,
+	MINUTE_IN_SEC
 } from './constants';
 import timeStatuses from './enums/timeStatuses';
 import taskStatuses from './enums/taskStatuses';
@@ -64,54 +64,51 @@ export const getImage = image => {
 }
 
 export const getTimeAgo = date => {
-  // Проверяем, если дата приходит в корректном формате
+	// Проверяем если дата приходит в корректном формате
   if (isNaN(Date.parse(date))) {
     return '... время не указано ...';
   }
   const seconds = Math.floor((new Date() - Date.parse(date)) / 1000);
-
   function getFinalString(number, pronounce) {
     return `${number} ${pronounce} назад`;
   }
-
-  // Определяем правильное окончание
+	// Определяем правильное окончание
   function getPronounce(number, single, pluralTwoFour, pluralFive) {
     return number === 1
       ? single
       : number > 1 && number < 5
         ? pluralTwoFour
-        :pluralFive;
+        : pluralFive;
   }
-
-  // Проверяем, если задача создана более года назад
-  let interval = seconds / YEAR_IN_SEC;
+	// Проверяем если задача создана более года назад
+	let interval = seconds / YEAR_IN_SEC;
   if (interval > 1) {
     const number = Math.floor(interval);
     const pronounce = getPronounce(number, 'год', 'года', 'лет');
     return getFinalString(number, pronounce);
   }
-  // Проверяем, если задача создана более месяца назад
+	// Проверяем если задача создана более месяца назад
   interval = seconds / MONTH_IN_SEC;
   if (interval > 1) {
     const number = Math.floor(interval);
     const pronounce = getPronounce(number, 'месяц', 'месяца', 'месяцев');
     return getFinalString(number, pronounce);
   }
-  // Проверяем, если задача создана более дня назад
+	// Проверяем если задача создана более одного дня назад
   interval = seconds / DAY_IN_SEC;
   if (interval > 1) {
     const number = Math.floor(interval);
     const pronounce = getPronounce(number, 'день', 'дня', 'дней');
     return getFinalString(number, pronounce);
   }
-  // Проверяем, если задача создана более часа назад
+	// Проверяем если задача создана более одного часа назад
   interval = seconds / HOUR_IN_SEC;
   if (interval > 1) {
     const number = Math.floor(interval);
     const pronounce = getPronounce(number, 'час', 'часа', 'часов');
     return getFinalString(number, pronounce);
   }
-  // Проверяем, если задача создана более минуты назад
+	// Проверяем если задача создана более одной минуты назад
   interval = seconds / MINUTE_IN_SEC;
   if (interval > 1) {
     const number = Math.floor(interval);
@@ -119,16 +116,16 @@ export const getTimeAgo = date => {
     return getFinalString(number, pronounce);
   }
   return 'сейчас';
-}
+};
 
 export const getReadableDate = date => {
-  if (isNaN(Date.parse(date))) return ''
+	if (isNaN(Date.parse(date))) return ''
   const newDate = new Date(date);
   const year = newDate.getFullYear();
   const month = newDate.getMonth();
   const day = newDate.getDate();
   return `${day}.${month + 1}.${year}`;
-}
+};
 
 export const createUUIDv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
@@ -140,3 +137,4 @@ export const createUUIDv4 = () => {
 export const createNewDate = () => {
   return new Date(new Date().setHours(23,59,59,999));
 };
+

@@ -4,42 +4,43 @@
       Комментарии
     </h2>
     <div class="comments">
-      <!-- Список комменатриев -->
+      <!--      Список комментариев-->
       <ul class="comments__list">
         <li
-          v-for="comment in comments"
-          :key="comment.id"
-          class="comments__item"
-          >
+            v-for="comment in comments"
+            :key="comment.id"
+            class="comments__item"
+        >
           <div class="comments__user">
             <img
-              :src="getImage(comment.user.avatar)"
-              :alt="comment.user.name"
-              width="30"
-              height="30"
+                :src="getImage(comment.user.avatar)"
+                :alt="comment.user.name"
+                width="30"
+                height="30"
             />
-            {{  comment.user.name }}
+            {{ comment.user.name }}
           </div>
-          <p>{{  comment.text }}</p>
+          <p>{{ comment.text }}</p>
         </li>
       </ul>
-      <!-- Блок добавления нового окмментария -->
+
+      <!--      Блок добавления нового комментария-->
       <form
-        v-if="user"
-        action="#"
-        class="comments__from"
-        method="post"
+          v-if="user"
+          action="#"
+          class="comments__form"
+          method="post"
       >
         <app-textarea
-          v-model="newComment"
-          name="comment_text"
-          placeholder="Введите текст комментария"
-          :error-text="validations.newComment.error"
+            v-model="newComment"
+            name="comment_text"
+            placeholder="Введите текст комментария"
+            :error-text="validations.newComment.error"
         />
         <app-button
-          class="comments__form__button"
-          type="'submit'"
-          @click.prevent="submit"
+            class="comments__form__button"
+            :type="'submit'"
+            @click.prevent="submit"
         >
           Написать комментарий
         </app-button>
@@ -50,15 +51,11 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import {getImage} from '@/common/helpers'
-
+import users from '@/mocks/users.json'
+import { validateFields, clearValidationErrors } from '../../../common/validator'
 import AppTextarea from '@/common/components/AppTextarea.vue'
 import AppButton from '@/common/components/AppButton.vue'
-import users from '@/mocks/users/json'
-
-import { validateFields, clearValidationErrors } from '../../../common/validator'
-
-const user = computed(() => users[0])
+import { getImage } from '@/common/helpers'
 
 const props = defineProps({
   taskId: {
@@ -71,6 +68,8 @@ const props = defineProps({
   }
 })
 
+const emits = defineEmits(['createNewComment'])
+
 const newComment = ref('')
 const validations = ref({
   newComment: {
@@ -79,11 +78,18 @@ const validations = ref({
   }
 })
 
-// Функция отправки формы
-const emits = defineEmits(['createNewComment'])
+// Позже будет добавлен залогиненый пользователь. До этого будем использовать первого пользователя в списке
+const user = computed(() => users[0])
+
+// Отслеживаем значение поля комментария и очищаем ошибку при изменении
+watch(newComment, () => {
+  if (validations.value.newComment.error) {
+    clearValidationErrors(validations.value)
+  }
+})
 
 const submit = function () {
-  // Проверяем, видно ли поле комменатрия
+  // Проверяем валидно ли поле комментария
   if (!validateFields({ newComment }, validations.value)) return
   // Создаем объект комментария
   const comment = {
@@ -97,16 +103,11 @@ const submit = function () {
     }
   }
   // Отправляем комментарий в родительский компонент
-  emits('createNweComment', comment)
+  emits('createNewComment', comment)
   // Очищаем поле комментария
   newComment.value = ''
-
-  watch(newComment, () => {
-    if (validations.value.newComment.error) {
-      clearValidationErrors(validations.value)
-    }
-  })
 }
+
 </script>
 
 <style lang="scss" scoped>

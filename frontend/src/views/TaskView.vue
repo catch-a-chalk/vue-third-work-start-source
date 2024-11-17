@@ -139,7 +139,6 @@ import { useTaskCardDate } from '../common/composables'
 import TaskCardViewTicksList from '../modules/tasks/components/TaskCardViewTicksList.vue'
 import TaskCardTags from '../modules/tasks/components/TaskCardTags.vue'
 import TaskCardViewComments from '../modules/tasks/components/TaskCardViewComments.vue'
-import TaskCardViewTicksList from '../modules/tasks/components/TaskCardViewTicksList.vue'
 
 const router = useRouter()
 const route = useRoute()

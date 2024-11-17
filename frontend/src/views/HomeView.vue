@@ -1,12 +1,17 @@
 <template>
   <main class="content">
     <section class="desk">
-      <!-- Отображение дочерних маршрутов -->
-      <router-view :tasks="props.tasks"/>
+      <!--      Отображение дочерних маршрутов-->
+      <router-view
+          :tasks="props.tasks"
+          @add-task="$emit('addTask', $event)"
+          @edit-task="$emit('editTask', $event)"
+          @delete-task="$emit('deleteTask', $event)"
+      />
       <!--      Шапка доски-->
       <div class="desk__header">
         <h1 class="desk__title">Design Coffee Lab</h1>
-<!--        Добавили кнопку для добавления новой колонки-->
+        <!--        Добавили кнопку для добавления новой колонки-->
         <button
             class="desk__add"
             type="button"
@@ -65,7 +70,7 @@
       </div>
       <!--      Колонки и задачи-->
       <div v-if="columns.length" class="desk__columns">
-<!--        Показываем колонки-->
+        <!--        Показываем колонки-->
         <desk-column
             v-for="column in state.columns"
             :key="column.id"
@@ -107,7 +112,7 @@ const props = defineProps({
   }
 })
 
-defineEmits(['applyFilters', 'updateTasks'])
+defineEmits(['applyFilters', 'updateTasks', 'addTask', 'editTask', 'deleteTask'])
 
 const state = reactive({ columns })
 
@@ -123,7 +128,7 @@ function updateColumn (column) {
 }
 
 function deleteColumn (id) {
-  state.columns = state.columns.filter(column => column.id !== id);
+  state.columns = state.columns.filter(column => column.id !== id)
 }
 </script>
 
