@@ -139,6 +139,7 @@ import { useTaskCardDate } from '../common/composables'
 import TaskCardViewTicksList from '../modules/tasks/components/TaskCardViewTicksList.vue'
 import TaskCardTags from '../modules/tasks/components/TaskCardTags.vue'
 import TaskCardViewComments from '../modules/tasks/components/TaskCardViewComments.vue'
+import { useTasksStore } from '@/stores'
 
 const router = useRouter()
 const route = useRoute()
@@ -159,7 +160,7 @@ onMounted(() => {
 
 // Найдем задачу по id из массива задач
 const task = computed(() => {
-  return props.tasks.find(task => task.id == route.params.id)
+  return tasksStore.tasks.find(task => task.id == route.params.id)
 })
 
 const dueDate = computed(() => {
@@ -176,6 +177,8 @@ const addCommentToList = function (comment) {
   }
   task.value.comments.push(comment)
 }
+
+const tasksStore = useTasksStore()
 </script>
 
 <style lang="scss" scoped>

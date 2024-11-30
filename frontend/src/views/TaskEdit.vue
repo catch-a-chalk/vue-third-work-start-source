@@ -2,8 +2,6 @@
   <task-card-creator
       v-if="task"
       :task-to-edit="task"
-      @edit-task="$emit('editTask', $event)"
-      @delete-task="$emit('deleteTask', $event)"
   />
 </template>
 
@@ -11,6 +9,7 @@
 import TaskCardCreator from '../modules/tasks/components/TaskCardCreator.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { createNewDate } from '../common/helpers'
+import { useTasksStore } from '@/stores'
 
 const route = useRoute()
 const router = useRouter()
@@ -25,7 +24,7 @@ const props = defineProps({
 defineEmits(['editTask', 'deleteTask'])
 
 // Находим задачу из массива задач по id из строки URL
-const task = props.tasks.find(task => +task.id === +route.params.id)
+const task = tasksStore.tasks.find(task => +task.id === +route.params.id)
 
 if (task) {
   const taskDate = task.dueDate
@@ -34,4 +33,6 @@ if (task) {
   // Перенаправляем на главную страницу если задача не найдена
   router.push('/')
 }
+const tasksStore = useTasksStore()
+
 </script>
