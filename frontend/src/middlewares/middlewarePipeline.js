@@ -1,0 +1,25 @@
+export default (router) => {
+  router.beforeEach(async (to, from) => {
+    // Находим мидлвары в свойстве meta.middlewares маршрута,
+    // на который приходит доступ
+    const middlewares = to.meta.middlewares
+    // Если у маршрута нет мидлваров, переходим на страницу
+    if (!middlewares) {
+      return true
+    }
+    // Добавляем перебор мидлваров
+    for (const middleware of middlewares) {
+      const result = await middleware({ to, from })
+      // Если мидлвар возвращает объект или страку маршрута
+      // прерываем цепочку и возвращаем результат
+      if (
+        typeof result === 'object' ||
+        typeof result === 'string' ||
+        result === false
+      ) {
+        return result
+      }
+    }
+    return true
+  })
+}
