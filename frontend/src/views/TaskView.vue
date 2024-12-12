@@ -22,6 +22,7 @@
           </h1>
 <!--Кнопка редактирования задачи-->
           <a
+              v-if="authStore.getUserAttribute('isAdmin')"
               class="task-card__edit"
               @click="router.push({
                 name: 'TaskEdit',
@@ -48,7 +49,7 @@
                   class="task-card__user"
               >
                 <img
-                    :src="getImage(task.user.avatar)"
+                    :src="getPublicImage(task.user.avatar)"
                     :alt="task.user.name"
                 />
                 {{ task.user.name }}
@@ -139,7 +140,7 @@ import { useTaskCardDate } from '../common/composables'
 import TaskCardViewTicksList from '../modules/tasks/components/TaskCardViewTicksList.vue'
 import TaskCardTags from '../modules/tasks/components/TaskCardTags.vue'
 import TaskCardViewComments from '../modules/tasks/components/TaskCardViewComments.vue'
-import { useTasksStore } from '@/stores'
+import { useTasksStore, useAuthStore } from '@/stores'
 
 const router = useRouter()
 const route = useRoute()
@@ -160,7 +161,7 @@ onMounted(() => {
 
 // Найдем задачу по id из массива задач
 const task = computed(() => {
-  return tasksStore.tasks.find(task => task.id == route.params.id)
+  return tasksStore.getTaskById(route.params.id)
 })
 
 const dueDate = computed(() => {
@@ -179,6 +180,7 @@ const addCommentToList = function (comment) {
 }
 
 const tasksStore = useTasksStore()
+const authStore = useAuthStore()
 </script>
 
 <style lang="scss" scoped>

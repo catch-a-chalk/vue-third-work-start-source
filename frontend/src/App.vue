@@ -18,13 +18,14 @@
 
 <script setup>
 import { AppLayout } from '@/layouts'
-import { useTasksStore, useColumnsStore, useUsersStore, useCommentsStore } from './stores'
+import { useTasksStore, useColumnsStore, useUsersStore, useCommentsStore, useTicksStore } from './stores'
 
 // Определяем хранилища
 const tasksStore = useTasksStore()
 const usersStore = useUsersStore()
 const columnStore = useColumnsStore()
 const commentsStore = useCommentsStore()
+const ticksStore = useTicksStore()
 
 // Загрузка первоначальных данных
 // Загрузка задач
@@ -32,9 +33,11 @@ void tasksStore.fetchTasks()
 // Загрузка пользователей
 void usersStore.fetchUsers()
 // Загрузка колонок
-void useColumnsStore.fetchColumns()
+void columnStore.fetchColumns()
 // Загрузка комментариев
 void commentsStore.fetchComments()
+// Загрузка подзадачи
+void ticksStore.fetchTicks()
 </script>
 
 <style lang="scss">
